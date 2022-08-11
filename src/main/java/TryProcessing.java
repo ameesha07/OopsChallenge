@@ -1,41 +1,37 @@
 import processing.core.PApplet;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class TryProcessing extends PApplet {
+    public static final int WIDTH = 640;
+    public static final int HEIGHT = 400;
+    public static final int RADIUS = 10;
+    public static final int NUMBER_OF_BALLS = 4;
+    List<Ball> balls = new ArrayList<Ball>();
 
-    public static final int WIDTH= 600;
-    public static final int HEIGHT = 600;
-    public static final int DIAMETER = 20;
-
-    Ball ball1= new Ball(DIAMETER,1,0);
-    Ball ball2= new Ball(DIAMETER,2,0);
-    Ball ball3= new Ball(DIAMETER,3,0);
-    Ball ball4= new Ball(DIAMETER,4,0);
-
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         PApplet.main("TryProcessing", args);
     }
 
-    public void settings()
-    {
+    @Override
+    public void settings() {
         super.settings();
-        size(WIDTH,HEIGHT);
+        size(WIDTH, HEIGHT);
+        for (int i = 1; i <= NUMBER_OF_BALLS; i++) {
+            Ball b = new Ball(0, i * (HEIGHT / 5), RADIUS, i);
+            balls.add(b);
+        }
     }
 
-    public void draw()
-    {
-        ellipse(ball1.getXposition(),HEIGHT/5, ball1.getDiameter(),ball1.getDiameter());
-        ellipse(ball2.getXposition(),2*HEIGHT/5, ball2.getDiameter(),ball2.getDiameter());
-        ellipse(ball3.getXposition(),3*HEIGHT/5, ball3.getDiameter(),ball3.getDiameter());
-        ellipse(ball4.getXposition(),4*HEIGHT/5, ball4.getDiameter(),ball4.getDiameter());
-
-        ball1.setXposition(ball1.getXposition()+ ball1.getSpeed());
-        ball2.setXposition(ball2.getXposition()+ ball2.getSpeed());
-        ball3.setXposition(ball3.getXposition()+ ball3.getSpeed());
-        ball4.setXposition(ball4.getXposition()+ ball4.getSpeed());
+    @Override
+    public void draw() {
+        makeEclipse();
     }
 
-    public void setupWhiteBackground() {
-        background(255);
+    private void makeEclipse() {
+        for (Ball b : balls) {
+            ellipse(b.xCoord += b.ballSpeed, b.yCoord, b.radius, b.radius);
+        }
     }
 }
